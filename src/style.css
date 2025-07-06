@@ -1,5 +1,30 @@
+* {
+	font-family: sans-serif;
+}
+
 .header {
 	text-align: center;
+	font-size: 48px;
+}
+
+.add-task {
+	align-self: flex-end;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 50px;
+	width: 200px;
+	background-color: gray;
+	border-radius: 24px;
+}
+
+.add-task img {
+	width: 25px;
+}
+
+.add-task span {
+	font-size: 24px;
+	font-weight: bold;
 }
 
 .container {

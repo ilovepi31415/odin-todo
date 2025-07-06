@@ -1,5 +1,12 @@
 import "./style.css";
 
+const ADDTASK = document.querySelector(".add-task");
+const TASKCONTAINER = document.querySelector(".container");
+
+ADDTASK.addEventListener("click", () => {
+	console.log("click");
+});
+
 function Task() {
 	// intiailizes a task
 	// change priority
