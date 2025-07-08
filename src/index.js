@@ -16,7 +16,8 @@ function Task() {
 		let title = "Title";
 		let description = "Description";
 		let dueDate = "01/01/2025";
-		let priority = "High Priority";
+		let priority = Math.floor(Math.random() * 3) + 1;
+		console.log(priority);
 
 		RENDERER.renderNew(title, description, dueDate, priority);
 	};
@@ -31,7 +32,21 @@ function Renderer() {
 	const renderNew = (title, description, dueDate, priority) => {
 		const TASK = document.createElement("div");
 		TASK.classList.add("task");
-		TASK.classList.add("high");
+		let priorityMessage = "";
+		switch (priority) {
+			case 1:
+				TASK.classList.add("high");
+				priorityMessage = "High Priority";
+				break;
+			case 2:
+				TASK.classList.add("medium");
+				priorityMessage = "Medium Priority";
+				break;
+			case 3:
+				TASK.classList.add("low");
+				priorityMessage = "Low Priority";
+				break;
+		}
 
 		const TITLE = document.createElement("div");
 		TITLE.classList.add("title");
@@ -47,7 +62,7 @@ function Renderer() {
 
 		const PRIORITY = document.createElement("div");
 		PRIORITY.classList.add("priority");
-		PRIORITY.innerText = priority;
+		PRIORITY.innerText = priorityMessage;
 
 		const SETTINGS = document.createElement("div");
 		const DOTIMAGE = document.createElement("img");
