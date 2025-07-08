@@ -57,7 +57,18 @@
 
 .priority {
 	justify-self: end;
+}
+
+.task.high .priority {
 	color: red;
+}
+
+.task.medium .priority {
+	color: gold;
+}
+
+.task.low .priority {
+	color: green;
 }
 
 .settings {
