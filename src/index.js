@@ -3,6 +3,7 @@ import dots from "./icons/dots-vertical.svg";
 
 const ADDTASK = document.querySelector(".add-task");
 const TASKCONTAINER = document.querySelector(".container");
+const MYTASKS = [];
 const RENDERER = Renderer();
 
 ADDTASK.addEventListener("click", () => {
@@ -17,9 +18,10 @@ function Task() {
 		let description = "Description";
 		let dueDate = "01/01/2025";
 		let priority = Math.floor(Math.random() * 3) + 1;
-		console.log(priority);
+		const ID = crypto.randomUUID();
+		MYTASKS.push(ID);
 
-		RENDERER.renderNew(title, description, dueDate, priority);
+		RENDERER.renderNew(title, description, dueDate, priority, ID);
 	};
 	// change priority
 	// delete task
@@ -29,7 +31,7 @@ function Task() {
 
 function Renderer() {
 	// Write setup form to screen
-	const renderNew = (title, description, dueDate, priority) => {
+	const renderNew = (title, description, dueDate, priority, ID) => {
 		const TASK = document.createElement("div");
 		TASK.classList.add("task");
 		let priorityMessage = "";
@@ -68,6 +70,8 @@ function Renderer() {
 		const DOTIMAGE = document.createElement("img");
 		SETTINGS.classList.add("settings");
 		DOTIMAGE.src = dots;
+
+		TASK.dataset.id = ID;
 
 		TASK.appendChild(TITLE);
 		TASK.appendChild(DESCRIPTION);
