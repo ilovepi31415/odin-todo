@@ -50,6 +50,8 @@ function Renderer() {
 				break;
 		}
 
+		TASK.dataset.id = ID;
+
 		const TITLE = document.createElement("div");
 		TITLE.classList.add("title");
 		TITLE.innerText = title;
@@ -71,7 +73,9 @@ function Renderer() {
 		SETTINGS.classList.add("settings");
 		DOTIMAGE.src = dots;
 
-		TASK.dataset.id = ID;
+		DOTIMAGE.addEventListener("click", () => {
+			RENDERER.deleteTask(ID);
+		});
 
 		TASK.appendChild(TITLE);
 		TASK.appendChild(DESCRIPTION);
@@ -83,5 +87,10 @@ function Renderer() {
 	};
 	// Write tasks to screen
 
-	return { renderNew };
+	const deleteTask = (id) => {
+		const badTask = document.querySelector("[data-id=" + CSS.escape(id) + "]");
+		TASKCONTAINER.removeChild(badTask);
+	};
+
+	return { renderNew, deleteTask };
 }
