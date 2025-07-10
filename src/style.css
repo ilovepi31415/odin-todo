@@ -8,6 +8,12 @@
 	font-size: 48px;
 }
 
+.button-container {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 8px;
+}
+
 .add-task {
 	align-self: flex-end;
 	display: flex;

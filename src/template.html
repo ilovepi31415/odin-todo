@@ -7,32 +7,38 @@
 	</head>
 	<body>
 		<h1 class="header">My To-Do List</h1>
-		<div class="container">
+		<div class="button-container">
 			<div class="add-task">
 				<img src="icons/plus.svg" alt="" /><span class="text">Add Task </span>
 			</div>
-			<!-- items go in here -->
-			<div class="task">
-				<div class="title">Title</div>
-				<div class="description">Description</div>
-				<div class="due-date">01/01/2025</div>
-				<div class="priority">High Priority</div>
-				<div class="settings"><img src="icons/dots-vertical.svg" alt="" /></div>
-			</div>
-			<div class="task">
-				<div class="title">Title</div>
-				<div class="description">Description</div>
-				<div class="due-date">01/01/2025</div>
-				<div class="priority">High Priority</div>
-				<div class="settings"><img src="icons/dots-vertical.svg" alt="" /></div>
-			</div>
-			<div class="task">
-				<div class="title">Title</div>
-				<div class="description">Description</div>
-				<div class="due-date">01/01/2025</div>
-				<div class="priority">High Priority</div>
-				<div class="settings"><img src="icons/dots-vertical.svg" alt="" /></div>
-			</div>
 		</div>
+		<div class="container">
+			<!-- items go in here -->
+		</div>
+		<dialog class="modal">
+			<form id="form" method="dialog">
+				<div>
+					<label for="title">Name:</label>
+					<input type="text" id="title" />
+				</div>
+				<div>
+					<label for="description">Notes:</label>
+					<input type="text" id="description" />
+				</div>
+				<div>
+					<label for="due-date">Due Date:</label>
+					<input type="date" id="due-date" />
+				</div>
+				<div>
+					<label for="priority">Priority:</label>
+					<select id="priority">
+						<option value="low">Low</option>
+						<option value="medium">Medium</option>
+						<option value="high">High</option>
+					</select>
+				</div>
+				<button type="submit">Create</button>
+			</form>
+		</dialog>
 	</body>
 </html>

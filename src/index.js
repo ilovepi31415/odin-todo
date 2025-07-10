@@ -4,27 +4,26 @@ import dots from "./icons/dots-vertical.svg";
 const ADDTASK = document.querySelector(".add-task");
 const TASKCONTAINER = document.querySelector(".container");
 const MYTASKS = [];
+const MODAL = document.querySelector(".modal");
+const FORM = document.querySelector("#form");
 const RENDERER = Renderer();
 
 ADDTASK.addEventListener("click", () => {
-	const newTask = Task();
-	newTask.initializeTask();
+	MODAL.showModal();
 });
 
 function Task() {
 	// intiailizes a task
-	const initializeTask = () => {
-		let title = "Title";
-		let description = "Description";
-		let dueDate = "01/01/2025";
-		let priority = Math.floor(Math.random() * 3) + 1;
+	const initializeTask = (title, description, dueDate, priority) => {
+		const TITLE = title;
+		const DESCRIPTION = description;
+		const DUEDATE = dueDate;
+		const PRIORITY = priority;
 		const ID = crypto.randomUUID();
-		MYTASKS.push(ID);
 
-		RENDERER.renderNew(title, description, dueDate, priority, ID);
+		RENDERER.renderNew(TITLE, DESCRIPTION, DUEDATE, PRIORITY, ID);
 	};
 	// change priority
-	// delete task
 
 	return { initializeTask };
 }
@@ -36,15 +35,15 @@ function Renderer() {
 		TASK.classList.add("task");
 		let priorityMessage = "";
 		switch (priority) {
-			case 1:
+			case "high":
 				TASK.classList.add("high");
 				priorityMessage = "High Priority";
 				break;
-			case 2:
+			case "medium":
 				TASK.classList.add("medium");
 				priorityMessage = "Medium Priority";
 				break;
-			case 3:
+			case "low":
 				TASK.classList.add("low");
 				priorityMessage = "Low Priority";
 				break;
@@ -94,3 +93,21 @@ function Renderer() {
 
 	return { renderNew, deleteTask };
 }
+
+FORM.addEventListener("submit", (e) => {
+	e.preventDefault();
+	MODAL.close();
+
+	let title = document.querySelector("#title").value;
+	let description = document.querySelector("#description").value;
+	let dueDate = document.querySelector("#due-date").value;
+	let priority = document.querySelector("#priority").value;
+
+	document.querySelector("#title").value = "";
+	document.querySelector("#description").value = "";
+	document.querySelector("#due-date").value = "";
+	document.querySelector("#priority").value = "low";
+
+	const newTask = Task();
+	newTask.initializeTask(title, description, dueDate, priority);
+});
