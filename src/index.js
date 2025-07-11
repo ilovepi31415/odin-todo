@@ -73,7 +73,8 @@ function Renderer() {
 		DOTIMAGE.src = dots;
 
 		DOTIMAGE.addEventListener("click", () => {
-			RENDERER.deleteTask(ID);
+			// RENDERER.deleteTask(ID);
+			RENDERER.editTask(ID);
 		});
 
 		TASK.appendChild(TITLE);
@@ -91,7 +92,34 @@ function Renderer() {
 		TASKCONTAINER.removeChild(badTask);
 	};
 
-	return { renderNew, deleteTask };
+	const getInfo = (id) => {
+		const task = document.querySelector("[data-id=" + CSS.escape(id) + "]");
+
+		const title = task.querySelector(".title").innerText;
+		const description = task.querySelector(".description").innerText;
+		const dueDate = task.querySelector(".due-date").innerText;
+		const priorityMessage = task.querySelector(".priority").innerText;
+
+		const priority = priorityMessage
+			.slice(0, priorityMessage.indexOf(" "))
+			.toLowerCase();
+		console.log(priority);
+
+		return { title, description, dueDate, priority };
+	};
+
+	const editTask = (id) => {
+		const info = getInfo(id);
+
+		MODAL.querySelector("#title").value = info.title;
+		MODAL.querySelector("#description").value = info.description;
+		MODAL.querySelector("#due-date").value = info.dueDate;
+		MODAL.querySelector("#priority").value = info.priority;
+		MODAL.showModal();
+		deleteTask(id);
+	};
+
+	return { renderNew, editTask, deleteTask };
 }
 
 FORM.addEventListener("submit", (e) => {
@@ -103,10 +131,10 @@ FORM.addEventListener("submit", (e) => {
 	let dueDate = document.querySelector("#due-date").value;
 	let priority = document.querySelector("#priority").value;
 
-	document.querySelector("#title").value = "";
-	document.querySelector("#description").value = "";
-	document.querySelector("#due-date").value = "";
-	document.querySelector("#priority").value = "low";
+	MODAL.querySelector("#title").value = "";
+	MODAL.querySelector("#description").value = "";
+	MODAL.querySelector("#due-date").value = "";
+	MODAL.querySelector("#priority").value = "low";
 
 	const newTask = Task();
 	newTask.initializeTask(title, description, dueDate, priority);
