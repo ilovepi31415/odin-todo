@@ -2,7 +2,8 @@ import "./style.css";
 import dots from "./icons/dots-vertical.svg";
 
 const ADDTASK = document.querySelector(".add-task");
-const DELETETASK = document.querySelector("#btn-delete");
+const BTNPOSITIVE = document.querySelector("#btn-positive");
+const BTNNEGATIVE = document.querySelector("#btn-negative");
 const TASKCONTAINER = document.querySelector(".container");
 const MYTASKS = [];
 const MODAL = document.querySelector(".modal");
@@ -10,6 +11,7 @@ const FORM = document.querySelector("#form");
 const RENDERER = Renderer();
 
 ADDTASK.addEventListener("click", () => {
+	RENDERER.setButtons("Create", "Cancel");
 	MODAL.showModal();
 });
 
@@ -74,7 +76,7 @@ function Renderer() {
 		DOTIMAGE.src = dots;
 
 		DOTIMAGE.addEventListener("click", () => {
-			// RENDERER.deleteTask(ID);
+			RENDERER.setButtons("Save", "Delete");
 			RENDERER.editTask(ID);
 		});
 
@@ -120,7 +122,12 @@ function Renderer() {
 		deleteTask(id);
 	};
 
-	return { renderNew, editTask, deleteTask };
+	const setButtons = (positiveText, negativeText) => {
+		BTNPOSITIVE.innerText = positiveText;
+		BTNNEGATIVE.innerText = negativeText;
+	};
+
+	return { renderNew, editTask, deleteTask, setButtons };
 }
 
 FORM.addEventListener("submit", (e) => {
@@ -138,7 +145,7 @@ FORM.addEventListener("submit", (e) => {
 	newTask.initializeTask(title, description, dueDate, priority);
 });
 
-DELETETASK.addEventListener("click", () => {
+BTNNEGATIVE.addEventListener("click", () => {
 	MODAL.close();
 	resetmodal();
 });
