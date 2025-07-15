@@ -2,6 +2,7 @@ import "./style.css";
 import dots from "./icons/dots-vertical.svg";
 
 const ADDTASK = document.querySelector(".add-task");
+const DELETETASK = document.querySelector("#btn-delete");
 const TASKCONTAINER = document.querySelector(".container");
 const MYTASKS = [];
 const MODAL = document.querySelector(".modal");
@@ -131,11 +132,20 @@ FORM.addEventListener("submit", (e) => {
 	let dueDate = document.querySelector("#due-date").value;
 	let priority = document.querySelector("#priority").value;
 
-	MODAL.querySelector("#title").value = "";
-	MODAL.querySelector("#description").value = "";
-	MODAL.querySelector("#due-date").value = "";
-	MODAL.querySelector("#priority").value = "low";
+	resetmodal();
 
 	const newTask = Task();
 	newTask.initializeTask(title, description, dueDate, priority);
 });
+
+DELETETASK.addEventListener("click", () => {
+	MODAL.close();
+	resetmodal();
+});
+
+const resetmodal = () => {
+	MODAL.querySelector("#title").value = "";
+	MODAL.querySelector("#description").value = "";
+	MODAL.querySelector("#due-date").value = "";
+	MODAL.querySelector("#priority").value = "low";
+};
