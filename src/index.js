@@ -5,7 +5,6 @@ const ADDTASK = document.querySelector(".add-task");
 const BTNPOSITIVE = document.querySelector("#btn-positive");
 const BTNNEGATIVE = document.querySelector("#btn-negative");
 const TASKCONTAINER = document.querySelector(".container");
-const MYTASKS = [];
 const MODAL = document.querySelector(".modal");
 const FORM = document.querySelector("#form");
 const RENDERER = Renderer();
@@ -24,16 +23,15 @@ function Task() {
 		const PRIORITY = priority;
 		const ID = crypto.randomUUID();
 
-		RENDERER.renderNew(TITLE, DESCRIPTION, DUEDATE, PRIORITY, ID);
+		RENDERER.renderTask(TITLE, DESCRIPTION, DUEDATE, PRIORITY, ID);
 	};
-	// change priority
 
 	return { initializeTask };
 }
 
 function Renderer() {
 	// Write setup form to screen
-	const renderNew = (title, description, dueDate, priority, ID) => {
+	const renderTask = (title, description, dueDate, priority, ID) => {
 		const TASK = document.createElement("div");
 		TASK.classList.add("task");
 		let priorityMessage = "";
@@ -127,7 +125,7 @@ function Renderer() {
 		BTNNEGATIVE.innerText = negativeText;
 	};
 
-	return { renderNew, editTask, deleteTask, setButtons };
+	return { renderTask, editTask, deleteTask, setButtons };
 }
 
 FORM.addEventListener("submit", (e) => {

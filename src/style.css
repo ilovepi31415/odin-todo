@@ -3,9 +3,17 @@
 	user-select: none;
 }
 
+body {
+	background-color: hsl(0, 0%, 20%);
+}
+
 .header {
 	text-align: center;
 	font-size: 48px;
+	background-color: hsl(180, 50%, 80%);
+	border-radius: 12px;
+	margin: 2.5% 25%;
+	padding: 1rem;
 }
 
 .button-container {
@@ -21,7 +29,7 @@
 	align-items: center;
 	height: 50px;
 	width: 200px;
-	background-color: gray;
+	background-color: hsl(0, 0%, 60%);
 	border-radius: 24px;
 }
 
@@ -45,16 +53,17 @@
 	grid-auto-flow: column;
 	grid-template: 1fr 1fr / 1fr 1fr 25px;
 	grid-gap: 4px;
-	border: 1px solid black;
-	padding: 4px;
+	border-radius: 12px;
+	padding: 8px;
 }
 
 .title {
 	font-weight: bold;
+	font-size: 20px;
 }
 
 .description {
-	color: gray;
+	color: hsl(0, 0%, 20%);
 }
 
 .due-date {
@@ -66,16 +75,28 @@
 	justify-self: end;
 }
 
+.task.high {
+	background-color: hsl(0 50% 80%);
+}
+
 .task.high .priority {
-	color: red;
+	color: hsl(0, 50%, 20%);
+}
+
+.task.medium {
+	background-color: hsl(60 50% 80%);
 }
 
 .task.medium .priority {
-	color: gold;
+	color: hsl(60, 50%, 20%);
+}
+
+.task.low {
+	background-color: hsl(120 50% 80%);
 }
 
 .task.low .priority {
-	color: green;
+	color: hsl(120 50% 20%);
 }
 
 .settings {
