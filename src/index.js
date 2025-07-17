@@ -109,7 +109,7 @@ function Renderer() {
 
 	const deleteTask = (id) => {
 		const badTask = document.querySelector("[data-id=" + CSS.escape(id) + "]");
-		PROJECTCONTAINER.removeChild(badTask);
+		badTask.parentElement.removeChild(badTask);
 	};
 
 	const getInfo = (id) => {
