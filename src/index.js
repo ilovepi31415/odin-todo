@@ -1,29 +1,47 @@
 import "./style.css";
 import dots from "./icons/dots-vertical.svg";
+import plus from "./icons/plus.svg";
 
-const ADDTASK = document.querySelector(".add-task");
+const ADDPROJECT = document.querySelector(".add-task");
 const BTNPOSITIVE = document.querySelector("#btn-positive");
 const BTNNEGATIVE = document.querySelector("#btn-negative");
-const TASKCONTAINER = document.querySelector(".container");
-const MODAL = document.querySelector(".modal");
-const FORM = document.querySelector("#form");
+const PROJECTCONTAINER = document.querySelector(".project-container");
+const TASKMODAL = document.querySelector("#modal-task");
+const TASKFORM = document.querySelector("#form-task");
+const PROJECTMODAL = document.querySelector("#modal-project");
+const PROJECTFORM = document.querySelector("#form-project");
 const RENDERER = Renderer();
+let selectedID;
 
-ADDTASK.addEventListener("click", () => {
-	RENDERER.setButtons("Create", "Cancel");
-	MODAL.showModal();
+ADDPROJECT.addEventListener("click", () => {
+	PROJECTMODAL.showModal();
 });
+
+function Project() {
+	const initializeProject = (name) => {
+		const ID = crypto.randomUUID();
+		RENDERER.renderProject(name, ID);
+	};
+
+	return { initializeProject };
+}
 
 function Task() {
 	// intiailizes a task
 	const initializeTask = (title, description, dueDate, priority) => {
-		const TITLE = title;
-		const DESCRIPTION = description;
-		const DUEDATE = dueDate;
-		const PRIORITY = priority;
 		const ID = crypto.randomUUID();
+		const selectedProject = document
+			.querySelector("[data-id=" + CSS.escape(selectedID) + "]")
+			.querySelector(".container");
 
-		RENDERER.renderTask(TITLE, DESCRIPTION, DUEDATE, PRIORITY, ID);
+		RENDERER.renderTask(
+			selectedProject,
+			title,
+			description,
+			dueDate,
+			priority,
+			ID
+		);
 	};
 
 	return { initializeTask };
@@ -31,7 +49,7 @@ function Task() {
 
 function Renderer() {
 	// Write setup form to screen
-	const renderTask = (title, description, dueDate, priority, ID) => {
+	const renderTask = (container, title, description, dueDate, priority, ID) => {
 		const TASK = document.createElement("div");
 		TASK.classList.add("task");
 		let priorityMessage = "";
@@ -74,7 +92,8 @@ function Renderer() {
 		DOTIMAGE.src = dots;
 
 		DOTIMAGE.addEventListener("click", () => {
-			RENDERER.setButtons("Save", "Delete");
+			RENDERER.setButton(BTNPOSITIVE, "Save");
+			RENDERER.setButton(BTNNEGATIVE, "Delete");
 			RENDERER.editTask(ID);
 		});
 
@@ -84,13 +103,13 @@ function Renderer() {
 		TASK.appendChild(PRIORITY);
 		TASK.appendChild(SETTINGS);
 		SETTINGS.appendChild(DOTIMAGE);
-		TASKCONTAINER.appendChild(TASK);
+		container.insertBefore(TASK, container.querySelector(".con"));
 	};
 	// Write tasks to screen
 
 	const deleteTask = (id) => {
 		const badTask = document.querySelector("[data-id=" + CSS.escape(id) + "]");
-		TASKCONTAINER.removeChild(badTask);
+		PROJECTCONTAINER.removeChild(badTask);
 	};
 
 	const getInfo = (id) => {
@@ -112,45 +131,99 @@ function Renderer() {
 	const editTask = (id) => {
 		const info = getInfo(id);
 
-		MODAL.querySelector("#title").value = info.title;
-		MODAL.querySelector("#description").value = info.description;
-		MODAL.querySelector("#due-date").value = info.dueDate;
-		MODAL.querySelector("#priority").value = info.priority;
-		MODAL.showModal();
+		TASKMODAL.querySelector("#task-title").value = info.title;
+		TASKMODAL.querySelector("#description").value = info.description;
+		TASKMODAL.querySelector("#due-date").value = info.dueDate;
+		TASKMODAL.querySelector("#priority").value = info.priority;
+		TASKMODAL.showModal();
 		deleteTask(id);
 	};
 
-	const setButtons = (positiveText, negativeText) => {
-		BTNPOSITIVE.innerText = positiveText;
-		BTNNEGATIVE.innerText = negativeText;
+	const setButton = (btn, message) => {
+		btn.innerText = message;
 	};
 
-	return { renderTask, editTask, deleteTask, setButtons };
+	const renderProject = (name, ID) => {
+		const PROJECT = document.createElement("div");
+		PROJECT.classList.add("project");
+		PROJECT.dataset.id = ID;
+
+		const TITLE = document.createElement("div");
+		TITLE.classList.add("title");
+		TITLE.innerText = name;
+
+		const CONTAINER = document.createElement("div");
+		CONTAINER.classList.add("container");
+
+		const ADD = document.createElement("div");
+		ADD.classList.add("task-button");
+		const ADDIMG = document.createElement("img");
+		ADDIMG.classList.add("addimg");
+		ADDIMG.src = plus;
+		ADDIMG.addEventListener("click", () => {
+			RENDERER.setButton(BTNPOSITIVE, "Create");
+			RENDERER.setButton(BTNNEGATIVE, "Cancel");
+			selectedID = ID;
+			TASKMODAL.showModal();
+		});
+
+		PROJECT.appendChild(TITLE);
+		PROJECT.appendChild(CONTAINER);
+		ADD.appendChild(ADDIMG);
+		PROJECT.appendChild(ADD);
+		PROJECTCONTAINER.appendChild(PROJECT);
+	};
+
+	const resetTaskModal = () => {
+		TASKMODAL.querySelector("#task-title").value = "";
+		TASKMODAL.querySelector("#description").value = "";
+		TASKMODAL.querySelector("#due-date").value = "";
+		TASKMODAL.querySelector("#priority").value = "low";
+	};
+
+	const resetProjectModal = () => {
+		PROJECTMODAL.querySelector("#project-title").value = "";
+	};
+
+	return {
+		renderTask,
+		editTask,
+		deleteTask,
+		setButton,
+		renderProject,
+		resetTaskModal,
+		resetProjectModal,
+	};
 }
 
-FORM.addEventListener("submit", (e) => {
+TASKFORM.addEventListener("submit", (e) => {
 	e.preventDefault();
-	MODAL.close();
+	TASKMODAL.close();
 
-	let title = document.querySelector("#title").value;
-	let description = document.querySelector("#description").value;
-	let dueDate = document.querySelector("#due-date").value;
-	let priority = document.querySelector("#priority").value;
+	let title = TASKFORM.querySelector("#task-title").value;
+	let description = TASKFORM.querySelector("#description").value;
+	let dueDate = TASKFORM.querySelector("#due-date").value;
+	let priority = TASKFORM.querySelector("#priority").value;
 
-	resetmodal();
+	RENDERER.resetTaskModal();
 
 	const newTask = Task();
 	newTask.initializeTask(title, description, dueDate, priority);
 });
 
-BTNNEGATIVE.addEventListener("click", () => {
-	MODAL.close();
-	resetmodal();
+PROJECTFORM.addEventListener("submit", (e) => {
+	e.preventDefault();
+	PROJECTMODAL.close();
+
+	let title = PROJECTFORM.querySelector("#project-title").value;
+
+	RENDERER.resetProjectModal();
+
+	const newProject = Project();
+	newProject.initializeProject(title);
 });
 
-const resetmodal = () => {
-	MODAL.querySelector("#title").value = "";
-	MODAL.querySelector("#description").value = "";
-	MODAL.querySelector("#due-date").value = "";
-	MODAL.querySelector("#priority").value = "low";
-};
+BTNNEGATIVE.addEventListener("click", () => {
+	TASKMODAL.close();
+	RENDERER.resetTaskModal();
+});

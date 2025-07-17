@@ -9,17 +9,17 @@
 		<h1 class="header">My To-Do List</h1>
 		<div class="button-container">
 			<div class="add-task">
-				<img src="icons/plus.svg" alt="" /><span class="text">Add Task </span>
+				<img src="icons/plus.svg" alt="" /><span class="text">Add Project</span>
 			</div>
 		</div>
-		<div class="container">
+		<div class="project-container">
 			<!-- items go in here -->
 		</div>
-		<dialog class="modal">
-			<form id="form" method="dialog">
+		<dialog id="modal-task" class="modal">
+			<form id="form-task" method="dialog">
 				<div>
 					<label for="title">Name:</label>
-					<input type="text" id="title" />
+					<input type="text" id="task-title" />
 				</div>
 				<div>
 					<label for="description">Notes:</label>
@@ -39,6 +39,15 @@
 				</div>
 				<button type="submit" id="btn-positive">Create</button>
 				<button type="button" id="btn-negative">Delete</button>
+			</form>
+		</dialog>
+		<dialog id="modal-project" class="modal">
+			<form id="form-project">
+				<div>
+					<label for="project-title">Project Name:</label>
+					<input type="text" id="project-title" />
+				</div>
+				<button class="submit" id="btn-project">Create</button>
 			</form>
 		</dialog>
 	</body>
